@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "name": "Plano de 5K - Iniciante",
+    "duration": "8 semanas",
+    "description": "Plano completo para correr 5km em 8 semanas, ideal para iniciantes",
+    "workouts": [
+      {
+        "date": "2024-01-15",
+        "type": "Caminhada",
+        "distance": "2km",
+        "duration": "20min",
+        "notes": "Primeiro treino do plano"
+      },
+      {
+        "date": "2024-01-17",
+        "type": "Corrida leve",
+        "distance": "1.5km",
+        "duration": "15min"
+      },
+      {
+        "date": "2024-01-19",
+        "type": "Caminhada",
+        "distance": "2km",
+        "duration": "20min"
+      },
+      {
+        "date": "2024-01-22",
+        "type": "Corrida leve",
+        "distance": "2km",
+        "duration": "18min"
+      },
+      {
+        "date": "2024-01-24",
+        "type": "Corrida leve",
+        "distance": "2km",
+        "duration": "18min"
+      },
+      {
+        "date": "2024-01-26",
+        "type": "Caminhada",
+        "distance": "2.5km",
+        "duration": "25min"
+      },
+      {
+        "date": "2024-01-29",
+        "type": "Corrida leve",
+        "distance": "2.5km",
+        "duration": "22min"
+      },
+      {
+        "date": "2024-01-31",
+        "type": "Corrida moderada",
+        "distance": "2km",
+        "duration": "16min"
+      },
+      {
+        "date": "2024-02-02",
+        "type": "Corrida leve",
+        "distance": "3km",
+        "duration": "27min"
+      },
+      {
+        "date": "2024-02-05",
+        "type": "Corrida leve",
+        "distance": "3km",
+        "duration": "27min"
+      },
+      {
+        "date": "2024-02-07",
+        "type": "Corrida moderada",
+        "distance": "2.5km",
+        "duration": "20min"
+      },
+      {
+        "date": "2024-02-09",
+        "type": "Longão",
+        "distance": "4km",
+        "duration": "40min"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Plano de 10K - Intermediário",
+    "duration": "12 semanas",
+    "description": "Plano para correr 10km, ideal para quem já corre 5km",
+    "workouts": [
+      {
+        "date": "2024-02-12",
+        "type": "Corrida leve",
+        "distance": "5km",
+        "duration": "30min"
+      },
+      {
+        "date": "2024-02-14",
+        "type": "Corrida moderada",
+        "distance": "4km",
+        "duration": "28min"
+      },
+      {
+        "date": "2024-02-16",
+        "type": "Longão",
+        "distance": "6km",
+        "duration": "42min"
+      },
+      {
+        "date": "2024-02-19",
+        "type": "Corrida leve",
+        "distance": "5km",
+        "duration": "30min"
+      },
+      {
+        "date": "2024-02-21",
+        "type": "Tiro",
+        "distance": "5km",
+        "duration": "25min",
+        "notes": "6x400m com intervalo de 2min"
+      },
+      {
+        "date": "2024-02-23",
+        "type": "Longão",
+        "distance": "7km",
+        "duration": "49min"
+      }
+    ]
+  }
+]
