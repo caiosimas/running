@@ -215,3 +215,4 @@ Todas as plataformas acima oferecem **deploy automático**:
 - Todas as plataformas permitem usar seu próprio domínio
 - Configure nas opções do projeto
 
+

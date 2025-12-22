@@ -3,6 +3,7 @@ import WorkoutForm from './components/WorkoutForm'
 import WorkoutList from './components/WorkoutList'
 import TrainingPlans from './components/TrainingPlans'
 import BackupRestore from './components/BackupRestore'
+import GoogleDriveSync from './components/GoogleDriveSync'
 import './styles/App.css'
 
 function App() {
@@ -62,6 +63,13 @@ function App() {
           <span className="tab-icon">💾</span>
           Backup
         </button>
+        <button
+          className={activeTab === 'sync' ? 'active' : ''}
+          onClick={() => setActiveTab('sync')}
+        >
+          <span className="tab-icon">🔄</span>
+          Sincronizar
+        </button>
       </nav>
 
       <main className="app-main">
@@ -69,6 +77,7 @@ function App() {
         {activeTab === 'history' && <WorkoutList key={refreshKey} />}
         {activeTab === 'plans' && <TrainingPlans onMarkAsDone={handleWorkoutFromPlan} key={refreshKey} />}
         {activeTab === 'backup' && <BackupRestore onDataImported={handleDataImported} />}
+        {activeTab === 'sync' && <GoogleDriveSync onDataImported={handleDataImported} />}
       </main>
     </div>
   )
