@@ -196,6 +196,37 @@
   margin-bottom: 0.5rem;
 }
 
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+
+.loading-state p {
+  font-size: 1.125rem;
+}
+
+.error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: 12px;
+  color: var(--danger);
+}
+
+.error-state p {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-hint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .workout-cards {
     grid-template-columns: 1fr;

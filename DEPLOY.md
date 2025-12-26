@@ -195,9 +195,8 @@ Todas as plataformas acima oferecem **deploy automático**:
 - Execute `npm install` localmente para testar
 
 ### Dados não persistem
-- O localStorage é específico por domínio
-- Cada dispositivo terá seus próprios dados
-- Use a funcionalidade de Backup/Restore para sincronizar
+- Com Firebase, os dados são sincronizados automaticamente entre dispositivos
+- Certifique-se de estar logado com a mesma conta em todos os dispositivos
 
 ---
 
@@ -205,7 +204,7 @@ Todas as plataformas acima oferecem **deploy automático**:
 
 ⚠️ **LocalStorage é específico por domínio:**
 - Dados salvos em `app.vercel.app` não aparecem em `app.netlify.app`
-- Use a funcionalidade de Backup/Restore para transferir dados entre dispositivos
+- Com Firebase, os dados são sincronizados automaticamente entre dispositivos
 
 ✅ **HTTPS automático:**
 - Todas as plataformas fornecem HTTPS gratuito

@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useWorkouts } from '../hooks/useFirestore'
 import '../styles/WorkoutList.css'
 
 function WorkoutList({ userId }) {
-  const { workouts, loading, deleteWorkout: deleteWorkoutFirestore } = useWorkouts(userId)
+  const { workouts, loading, error, deleteWorkout: deleteWorkoutFirestore } = useWorkouts(userId)
   const [filter, setFilter] = useState('all')
+
+  // Debug
+  useEffect(() => {
+    console.log('WorkoutList - userId:', userId)
+    console.log('WorkoutList - workouts:', workouts)
+    console.log('WorkoutList - loading:', loading)
+    console.log('WorkoutList - error:', error)
+  }, [userId, workouts, loading, error])
 
   const deleteWorkout = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este treino?')) {
@@ -20,6 +28,20 @@ function WorkoutList({ userId }) {
       <div className="workout-list-container">
         <div className="loading-state">
           <p>Carregando treinos...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="workout-list-container">
+        <div className="error-state">
+          <p>Erro ao carregar treinos: {error}</p>
+          <p className="error-hint">
+            Se o erro mencionar "index", você precisa criar um índice no Firestore.
+            Clique no link do erro no console para criar automaticamente.
+          </p>
         </div>
       </div>
     )

@@ -16,6 +16,7 @@ import { db } from '../config/firebase'
 export function useWorkouts(userId) {
   const [workouts, setWorkouts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!userId) {
@@ -24,11 +25,14 @@ export function useWorkouts(userId) {
       return
     }
 
+    setLoading(true)
+    setError(null)
     const workoutsRef = collection(db, 'workouts')
+    
+    // Tenta primeiro sem orderBy para evitar problemas de índice
     const q = query(
       workoutsRef,
-      where('userId', '==', userId),
-      orderBy('date', 'desc')
+      where('userId', '==', userId)
     )
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -36,10 +40,21 @@ export function useWorkouts(userId) {
         id: doc.id,
         ...doc.data()
       }))
+      
+      // Ordenar localmente por data (mais recente primeiro)
+      workoutsData.sort((a, b) => {
+        const dateA = new Date(a.date || a.createdAt || 0)
+        const dateB = new Date(b.date || b.createdAt || 0)
+        return dateB.getTime() - dateA.getTime()
+      })
+      
+      console.log('Treinos carregados:', workoutsData.length)
       setWorkouts(workoutsData)
       setLoading(false)
+      setError(null)
     }, (error) => {
       console.error('Erro ao carregar treinos:', error)
+      setError(error.message)
       setLoading(false)
     })
 
@@ -70,7 +85,7 @@ export function useWorkouts(userId) {
     }
   }
 
-  return { workouts, loading, addWorkout, deleteWorkout }
+  return { workouts, loading, error, addWorkout, deleteWorkout }
 }
 
 export function useTrainingPlans(userId) {

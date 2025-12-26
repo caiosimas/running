@@ -3,7 +3,6 @@ import { useAuth } from './hooks/useAuth'
 import WorkoutForm from './components/WorkoutForm'
 import WorkoutList from './components/WorkoutList'
 import TrainingPlans from './components/TrainingPlans'
-import BackupRestore from './components/BackupRestore'
 import Auth from './components/Auth'
 import './styles/App.css'
 
@@ -21,10 +20,6 @@ function App() {
 
   const handleWorkoutFromPlan = (workoutData) => {
     setPrefillData(workoutData)
-  }
-
-  const handleDataImported = () => {
-    setRefreshKey(prev => prev + 1)
   }
 
   if (authLoading) {
@@ -91,20 +86,12 @@ function App() {
           <span className="tab-icon">📅</span>
           Planos de Treino
         </button>
-        <button
-          className={activeTab === 'backup' ? 'active' : ''}
-          onClick={() => setActiveTab('backup')}
-        >
-          <span className="tab-icon">💾</span>
-          Backup
-        </button>
       </nav>
 
       <main className="app-main">
         {activeTab === 'register' && <WorkoutForm userId={user.uid} prefillData={prefillData} onPrefillUsed={() => setPrefillData(null)} key={refreshKey} />}
         {activeTab === 'history' && <WorkoutList userId={user.uid} key={refreshKey} />}
         {activeTab === 'plans' && <TrainingPlans userId={user.uid} onMarkAsDone={handleWorkoutFromPlan} key={refreshKey} />}
-        {activeTab === 'backup' && <BackupRestore userId={user.uid} onDataImported={handleDataImported} />}
       </main>
     </div>
   )
