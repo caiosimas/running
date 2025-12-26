@@ -10,7 +10,6 @@ Aplicação web para registrar treinos de corrida e gerenciar planos de treino.
 - ✅ **Filtros**: Filtre treinos por tipo (treino, longão, tiro, recuperação)
 - ✅ **Estatísticas**: Veja distância total, tempo total e número de treinos
 - ✅ **Backup/Restore**: Exporte e importe seus dados para usar em vários dispositivos
-- ✅ **Sincronização Google Drive**: Sincronização automática com Google Drive para acesso em qualquer dispositivo
 
 ## Como usar
 

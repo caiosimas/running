@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
+import { useAuth } from './hooks/useAuth'
 import WorkoutForm from './components/WorkoutForm'
 import WorkoutList from './components/WorkoutList'
 import TrainingPlans from './components/TrainingPlans'
 import BackupRestore from './components/BackupRestore'
-import GoogleDriveSync from './components/GoogleDriveSync'
+import Auth from './components/Auth'
 import './styles/App.css'
 
 function App() {
+  const { user, loading: authLoading, logout } = useAuth()
   const [activeTab, setActiveTab] = useState('register')
   const [prefillData, setPrefillData] = useState(null)
   const [refreshKey, setRefreshKey] = useState(0)
@@ -25,12 +27,45 @@ function App() {
     setRefreshKey(prev => prev + 1)
   }
 
+  if (authLoading) {
+    return (
+      <div className="app">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Carregando...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <div className="header-content">
+            <h1>Running Tracker</h1>
+            <p>Registre seus treinos e acompanhe seu progresso</p>
+          </div>
+        </header>
+        <main className="app-main">
+          <Auth />
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <header className="app-header">
         <div className="header-content">
           <h1>Running Tracker</h1>
           <p>Registre seus treinos e acompanhe seu progresso</p>
+          <div className="user-info">
+            <span className="user-email">{user.email}</span>
+            <button onClick={logout} className="logout-button">
+              Sair
+            </button>
+          </div>
         </div>
       </header>
 
@@ -63,21 +98,13 @@ function App() {
           <span className="tab-icon">💾</span>
           Backup
         </button>
-        <button
-          className={activeTab === 'sync' ? 'active' : ''}
-          onClick={() => setActiveTab('sync')}
-        >
-          <span className="tab-icon">🔄</span>
-          Sincronizar
-        </button>
       </nav>
 
       <main className="app-main">
-        {activeTab === 'register' && <WorkoutForm prefillData={prefillData} onPrefillUsed={() => setPrefillData(null)} key={refreshKey} />}
-        {activeTab === 'history' && <WorkoutList key={refreshKey} />}
-        {activeTab === 'plans' && <TrainingPlans onMarkAsDone={handleWorkoutFromPlan} key={refreshKey} />}
-        {activeTab === 'backup' && <BackupRestore onDataImported={handleDataImported} />}
-        {activeTab === 'sync' && <GoogleDriveSync onDataImported={handleDataImported} />}
+        {activeTab === 'register' && <WorkoutForm userId={user.uid} prefillData={prefillData} onPrefillUsed={() => setPrefillData(null)} key={refreshKey} />}
+        {activeTab === 'history' && <WorkoutList userId={user.uid} key={refreshKey} />}
+        {activeTab === 'plans' && <TrainingPlans userId={user.uid} onMarkAsDone={handleWorkoutFromPlan} key={refreshKey} />}
+        {activeTab === 'backup' && <BackupRestore userId={user.uid} onDataImported={handleDataImported} />}
       </main>
     </div>
   )

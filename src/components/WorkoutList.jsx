@@ -1,25 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useWorkouts } from '../hooks/useFirestore'
 import '../styles/WorkoutList.css'
 
-function WorkoutList() {
-  const [workouts, setWorkouts] = useState([])
+function WorkoutList({ userId }) {
+  const { workouts, loading, deleteWorkout: deleteWorkoutFirestore } = useWorkouts(userId)
   const [filter, setFilter] = useState('all')
 
-  useEffect(() => {
-    loadWorkouts()
-  }, [])
-
-  const loadWorkouts = () => {
-    const stored = JSON.parse(localStorage.getItem('workouts') || '[]')
-    setWorkouts(stored.sort((a, b) => new Date(b.date) - new Date(a.date)))
+  const deleteWorkout = async (id) => {
+    if (window.confirm('Tem certeza que deseja excluir este treino?')) {
+      const result = await deleteWorkoutFirestore(id)
+      if (!result.success) {
+        alert('Erro ao excluir treino: ' + result.error)
+      }
+    }
   }
 
-  const deleteWorkout = (id) => {
-    if (window.confirm('Tem certeza que deseja excluir este treino?')) {
-      const updated = workouts.filter(w => w.id !== id)
-      localStorage.setItem('workouts', JSON.stringify(updated))
-      setWorkouts(updated)
-    }
+  if (loading) {
+    return (
+      <div className="workout-list-container">
+        <div className="loading-state">
+          <p>Carregando treinos...</p>
+        </div>
+      </div>
+    )
   }
 
   const filteredWorkouts = filter === 'all' 

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useWorkouts } from '../hooks/useFirestore'
 import '../styles/WorkoutForm.css'
 
-function WorkoutForm({ prefillData, onPrefillUsed }) {
+function WorkoutForm({ userId, prefillData, onPrefillUsed }) {
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     distance: '',
@@ -49,33 +50,37 @@ function WorkoutForm({ prefillData, onPrefillUsed }) {
     return ''
   }
 
-  const handleSubmit = (e) => {
+  const { addWorkout } = useWorkouts(userId)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     const workout = {
-      id: Date.now(),
       ...formData,
+      date: formData.date,
       distance: parseFloat(formData.distance),
       duration: parseFloat(formData.duration),
       pace: formData.pace || calculatePace(),
-      createdAt: new Date().toISOString()
+      type: formData.type,
+      notes: formData.notes || ''
     }
 
-    const workouts = JSON.parse(localStorage.getItem('workouts') || '[]')
-    workouts.push(workout)
-    localStorage.setItem('workouts', JSON.stringify(workouts))
-
-    // Reset form
-    setFormData({
-      date: new Date().toISOString().split('T')[0],
-      distance: '',
-      duration: '',
-      pace: '',
-      type: 'treino',
-      notes: ''
-    })
-
-    alert('Treino registrado com sucesso!')
+    const result = await addWorkout(workout)
+    
+    if (result.success) {
+      // Reset form
+      setFormData({
+        date: new Date().toISOString().split('T')[0],
+        distance: '',
+        duration: '',
+        pace: '',
+        type: 'treino',
+        notes: ''
+      })
+      alert('Treino registrado com sucesso!')
+    } else {
+      alert('Erro ao registrar treino: ' + result.error)
+    }
   }
 
   return (

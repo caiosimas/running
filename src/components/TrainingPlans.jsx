@@ -1,34 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useTrainingPlans } from '../hooks/useFirestore'
 import '../styles/TrainingPlans.css'
 
-function TrainingPlans({ onMarkAsDone }) {
-  const [plans, setPlans] = useState([])
+function TrainingPlans({ userId, onMarkAsDone }) {
+  const { plans, loading, addPlan, deletePlan: deletePlanFirestore, importPlans } = useTrainingPlans(userId)
   const [showImport, setShowImport] = useState(false)
   const [showCreatePlan, setShowCreatePlan] = useState(false)
   const [importText, setImportText] = useState('')
   const [expandedPlan, setExpandedPlan] = useState(null)
 
-  useEffect(() => {
-    loadPlans()
-  }, [])
-
-  const loadPlans = () => {
-    const stored = JSON.parse(localStorage.getItem('trainingPlans') || '[]')
-    setPlans(stored)
-  }
-
-  const handleImport = () => {
+  const handleImport = async () => {
     try {
       const importedPlans = JSON.parse(importText)
       
       if (Array.isArray(importedPlans)) {
-        const existingPlans = JSON.parse(localStorage.getItem('trainingPlans') || '[]')
-        const updatedPlans = [...existingPlans, ...importedPlans]
-        localStorage.setItem('trainingPlans', JSON.stringify(updatedPlans))
-        setPlans(updatedPlans)
-        setImportText('')
-        setShowImport(false)
-        alert('Planos importados com sucesso!')
+        const result = await importPlans(importedPlans)
+        if (result.success) {
+          setImportText('')
+          setShowImport(false)
+          alert('Planos importados com sucesso!')
+        } else {
+          alert('Erro ao importar: ' + result.error)
+        }
       } else {
         alert('Formato inválido. O arquivo deve conter um array de planos.')
       }
@@ -48,12 +41,23 @@ function TrainingPlans({ onMarkAsDone }) {
     link.click()
   }
 
-  const deletePlan = (id) => {
+  const deletePlan = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este plano?')) {
-      const updated = plans.filter(p => p.id !== id)
-      localStorage.setItem('trainingPlans', JSON.stringify(updated))
-      setPlans(updated)
+      const result = await deletePlanFirestore(id)
+      if (!result.success) {
+        alert('Erro ao excluir plano: ' + result.error)
+      }
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="training-plans-container">
+        <div className="loading-state">
+          <p>Carregando planos...</p>
+        </div>
+      </div>
+    )
   }
 
   const markWorkoutAsDone = (workout, planName) => {
@@ -129,7 +133,7 @@ function TrainingPlans({ onMarkAsDone }) {
         </div>
       </div>
 
-      {showCreatePlan && <CreatePlanForm onPlanCreated={() => { setShowCreatePlan(false); loadPlans(); }} />}
+      {showCreatePlan && <CreatePlanForm userId={userId} onPlanCreated={() => { setShowCreatePlan(false); }} />}
 
       {showImport && (
         <div className="import-section">
@@ -264,7 +268,8 @@ function TrainingPlans({ onMarkAsDone }) {
   )
 }
 
-function CreatePlanForm({ onPlanCreated }) {
+function CreatePlanForm({ userId, onPlanCreated }) {
+  const { addPlan } = useTrainingPlans(userId)
   const [planName, setPlanName] = useState('')
   const [duration, setDuration] = useState('')
   const [description, setDescription] = useState('')
@@ -286,23 +291,24 @@ function CreatePlanForm({ onPlanCreated }) {
     setWorkouts(updated)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     const newPlan = {
-      id: Date.now(),
       name: planName,
       duration: duration,
       description: description,
       workouts: workouts.filter(w => w.date || w.distance || w.duration)
     }
 
-    const existingPlans = JSON.parse(localStorage.getItem('trainingPlans') || '[]')
-    const updated = [...existingPlans, newPlan]
-    localStorage.setItem('trainingPlans', JSON.stringify(updated))
+    const result = await addPlan(newPlan)
     
-    alert('Plano criado com sucesso!')
-    onPlanCreated()
+    if (result.success) {
+      alert('Plano criado com sucesso!')
+      onPlanCreated()
+    } else {
+      alert('Erro ao criar plano: ' + result.error)
+    }
   }
 
   return (
