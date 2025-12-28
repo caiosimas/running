@@ -115,6 +115,12 @@ function WorkoutList({ userId }) {
         >
           Recuperação
         </button>
+        <button
+          className={filter === 'corrida-livre' ? 'active' : ''}
+          onClick={() => setFilter('corrida-livre')}
+        >
+          Corrida Livre
+        </button>
       </div>
 
       {filteredWorkouts.length === 0 ? (

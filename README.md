@@ -6,9 +6,14 @@ Aplicação web para registrar treinos de corrida e gerenciar planos de treino.
 
 - ✅ **Registrar Treinos**: Registre seus treinos com distância, duração, ritmo e observações
 - ✅ **Histórico**: Visualize todos os seus treinos registrados com estatísticas
+- ✅ **Gráficos e Estatísticas**: Visualize sua evolução com gráficos interativos
+  - Evolução da distância ao longo do tempo
+  - Distância total por mês
+  - Distribuição por tipo de treino
+  - Frequência de treinos por semana
+  - Evolução do ritmo
 - ✅ **Planos de Treino**: Importe e gerencie planos de treino em formato JSON
 - ✅ **Filtros**: Filtre treinos por tipo (treino, longão, tiro, recuperação)
-- ✅ **Estatísticas**: Veja distância total, tempo total e número de treinos
 - ✅ **Sincronização Firebase**: Seus dados são sincronizados automaticamente em todos os dispositivos
 
 ## Como usar
