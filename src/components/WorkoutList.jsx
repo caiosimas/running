@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useWorkouts } from '../hooks/useFirestore'
+import { useRoutes } from '../hooks/useRoutes'
+import RouteViewer from './RouteViewer'
 import '../styles/WorkoutList.css'
 
 function WorkoutList({ userId }) {
   const { workouts, loading, error, deleteWorkout: deleteWorkoutFirestore } = useWorkouts(userId)
+  const { routes } = useRoutes(userId)
   const [filter, setFilter] = useState('all')
+  const [expandedWorkout, setExpandedWorkout] = useState(null)
 
   // Debug
   useEffect(() => {
@@ -155,6 +159,22 @@ function WorkoutList({ userId }) {
               {workout.notes && (
                 <div className="workout-notes">
                   <p>{workout.notes}</p>
+                </div>
+              )}
+              {workout.routeId && routes.find(r => r.id === workout.routeId) && (
+                <div className="workout-route">
+                  <button
+                    className="view-route-toggle"
+                    onClick={() => setExpandedWorkout(expandedWorkout === workout.id ? null : workout.id)}
+                  >
+                    {expandedWorkout === workout.id ? '▼' : '▶'} Ver Rota: {routes.find(r => r.id === workout.routeId).name}
+                  </button>
+                  {expandedWorkout === workout.id && (
+                    <RouteViewer 
+                      route={routes.find(r => r.id === workout.routeId)} 
+                      height={250}
+                    />
+                  )}
                 </div>
               )}
               <button

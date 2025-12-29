@@ -59,3 +59,19 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  background: var(--bg-secondary);
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-radius: 8px;
+}
+
+.leaflet-popup-tip {
+  background: var(--bg-tertiary);
+}

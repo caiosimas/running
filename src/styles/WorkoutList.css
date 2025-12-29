@@ -185,6 +185,34 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
+.workout-route {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.view-route-toggle {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-route-toggle:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary);
+}
+
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;

@@ -12,6 +12,11 @@ Aplicação web para registrar treinos de corrida e gerenciar planos de treino.
   - Distribuição por tipo de treino
   - Frequência de treinos por semana
   - Evolução do ritmo
+- ✅ **Rotas no Mapa**: Cadastre e gerencie suas rotas de corrida
+  - Desenhe rotas diretamente no mapa
+  - Visualize rotas nos treinos registrados
+  - Compare múltiplas rotas lado a lado
+  - Cálculo automático de distância
 - ✅ **Planos de Treino**: Importe e gerencie planos de treino em formato JSON
 - ✅ **Filtros**: Filtre treinos por tipo (treino, longão, tiro, recuperação)
 - ✅ **Sincronização Firebase**: Seus dados são sincronizados automaticamente em todos os dispositivos

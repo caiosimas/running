@@ -63,11 +63,13 @@
   color: var(--text-muted);
 }
 
-.pace-hint {
+.pace-hint,
+.route-hint {
   color: var(--primary-light);
   font-size: 0.875rem;
   font-weight: 500;
   margin-top: 0.25rem;
+  display: block;
 }
 
 .submit-button {

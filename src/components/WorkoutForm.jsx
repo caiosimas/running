@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useWorkouts } from '../hooks/useFirestore'
+import { useRoutes } from '../hooks/useRoutes'
 import '../styles/WorkoutForm.css'
 
 function WorkoutForm({ userId, prefillData, onPrefillUsed }) {
+  const { routes } = useRoutes(userId)
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     distance: '',
     duration: '',
     pace: '',
     type: 'treino',
-    notes: ''
+    notes: '',
+    routeId: ''
   })
 
   useEffect(() => {
@@ -20,7 +23,8 @@ function WorkoutForm({ userId, prefillData, onPrefillUsed }) {
         duration: prefillData.duration || '',
         pace: prefillData.pace || '',
         type: prefillData.type || 'treino',
-        notes: prefillData.notes || ''
+        notes: prefillData.notes || '',
+        routeId: prefillData.routeId || ''
       })
       if (onPrefillUsed) {
         onPrefillUsed()
@@ -75,7 +79,8 @@ function WorkoutForm({ userId, prefillData, onPrefillUsed }) {
         duration: '',
         pace: '',
         type: 'treino',
-        notes: ''
+        notes: '',
+        routeId: ''
       })
       alert('Treino registrado com sucesso!')
     } else {
@@ -160,6 +165,28 @@ function WorkoutForm({ userId, prefillData, onPrefillUsed }) {
             <option value="recuperacao">Recuperação</option>
             <option value="corrida-livre">Corrida Livre</option>
           </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="routeId">Rota (Opcional)</label>
+          <select
+            id="routeId"
+            name="routeId"
+            value={formData.routeId}
+            onChange={handleChange}
+          >
+            <option value="">Nenhuma rota</option>
+            {routes.map(route => (
+              <option key={route.id} value={route.id}>
+                {route.name} ({route.distance?.toFixed(2) || 'N/A'} km)
+              </option>
+            ))}
+          </select>
+          {formData.routeId && (
+            <small className="route-hint">
+              Rota selecionada: {routes.find(r => r.id === formData.routeId)?.name}
+            </small>
+          )}
         </div>
 
         <div className="form-group">

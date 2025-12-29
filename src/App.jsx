@@ -4,6 +4,7 @@ import WorkoutForm from './components/WorkoutForm'
 import WorkoutList from './components/WorkoutList'
 import TrainingPlans from './components/TrainingPlans'
 import Charts from './components/Charts'
+import RouteManager from './components/RouteManager'
 import Auth from './components/Auth'
 import './styles/App.css'
 
@@ -94,6 +95,13 @@ function App() {
           <span className="tab-icon">📈</span>
           Gráficos
         </button>
+        <button
+          className={activeTab === 'routes' ? 'active' : ''}
+          onClick={() => setActiveTab('routes')}
+        >
+          <span className="tab-icon">🗺️</span>
+          Rotas
+        </button>
       </nav>
 
       <main className="app-main">
@@ -101,6 +109,7 @@ function App() {
         {activeTab === 'history' && <WorkoutList userId={user.uid} key={refreshKey} />}
         {activeTab === 'plans' && <TrainingPlans userId={user.uid} onMarkAsDone={handleWorkoutFromPlan} key={refreshKey} />}
         {activeTab === 'charts' && <Charts userId={user.uid} key={refreshKey} />}
+        {activeTab === 'routes' && <RouteManager userId={user.uid} />}
       </main>
     </div>
   )
